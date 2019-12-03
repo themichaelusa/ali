@@ -21,7 +21,6 @@ def get_rc_file_type():
 
     # get shell type 
     ps_out = subprocess.check_output([const.GET_SHELL_TYPE_SCRIPT], shell=True)
-    #ps_out = subprocess.check_output(['echo', '"$SHELL"'], shell=True)
     shell_type_raw = ps_out.decode('utf8').rstrip()
     shell_type = shell_type_raw.split('/')[-1]
 
@@ -49,6 +48,3 @@ def save_dotrc_file(mod_dict):
         for name, cmd in mod_dict.items():
             rc_file.write(const.ALIAS_STR.format(name, cmd))
         rc_file.flush()
-
-if __name__ == '__main__':
-    print(get_rc_file_type())

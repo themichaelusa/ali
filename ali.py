@@ -34,7 +34,6 @@ import subprocess
 import constants as const
 import utilities as utils
 
-
 def show():
     print("{:<12} {:<20}".format('Alias','Command'))
     for alias, cmd in utils.dotrc_file_as_dict().items():

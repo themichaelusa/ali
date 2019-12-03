@@ -18,7 +18,7 @@ SHELL_TYPE_TO_RC_DICT = {
 'bash': '~/.bashrc',
 }
 
-GET_SHELL_TYPE_SCRIPT = './shell_scripts/get_shell_type.sh'
+GET_SHELL_TYPE_SCRIPT = './get_shell_type.sh'
 
 # ALI COMMANDS
 CMD_SHOW = 'show'
@@ -31,4 +31,4 @@ CMD_REUSE = 'reuse'
 ALIAS_STR = 'alias {}="{}"\n'
 
 # ALI LOCATION
-ALI_DIR_LOC = '/opt/ali'
+ALI_DIR_LOC = '/usr/local/lib/ali'

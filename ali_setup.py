@@ -18,8 +18,8 @@ import constants as const
 
 def setup():
 
-	subprocess.call(['mkdir', const.ALI_DIR_LOC], shell=True)
-	subprocess.call(['chmod', '755', const.ALI_DIR_LOC], shell=True)
+	# init ali dir in /usr/local/lib
+	os.mkdir(const.ALI_DIR_LOC)
 
 	# get abs path of fresh ali directory
 	ali_path = os.path.dirname(os.path.abspath(__file__))
@@ -29,13 +29,17 @@ def setup():
 
 	# copies over all files 
 	for file in all_file_paths:
-		subprocess.call(['sudo', 'cp', file, const.ALI_DIR_LOC])
-		new_path = '{}/{}'.format(const.ALI_DIR_LOC, file)
-		subprocess.call(['chmod', '755', new_path], shell=True)
+		subprocess.call(['cp', file, const.ALI_DIR_LOC])
+		file_name = file.split('/')[-1]
+		new_path = '{}/{}'.format(const.ALI_DIR_LOC, file_name)
+
+		try:
+			subprocess.check_output(['chmod', '777', new_path])
+		except subprocess.CalledProcessError:
+			pass # nothing required... for pycache error 
 
 	# drop setup files 
 	subprocess.call(['rm', '{}/ali_setup.py'.format(const.ALI_DIR_LOC)])
-
 
 if __name__ == '__main__':
 	setup()
