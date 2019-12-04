@@ -10,6 +10,8 @@
 *  for more details.
 """
 
+import utilities as utils
+
 # SHELL TYPES
 # TODO: add ksh, csh, fish
 SHELL_TYPE_TO_RC_DICT = {
@@ -21,7 +23,7 @@ SHELL_TYPE_TO_RC_DICT = {
 GET_SHELL_TYPE_SCRIPT = './get_shell_type.sh'
 
 # ALI COMMANDS
-CMD_SHOW = 'show'
+CMD_SHOW = ''
 CMD_ADD = 'add'
 CMD_REMOVE = 'remove'
 CMD_RENAME = 'rename'
@@ -32,3 +34,10 @@ ALIAS_STR = 'alias {}="{}"\n'
 
 # ALI LOCATION
 ALI_DIR_LOC = '/usr/local/lib/ali'
+
+# SETUP
+RM_SETUP_FILE = ['rm', '{}/ali_setup.py'.format(ALI_DIR_LOC)]
+ALI_ALIAS_SETUP = ['python3', 'ali.py', 'add', 'ali', 'python3 {}/ali.py'.format(ALI_DIR_LOC)]
+
+# again, this may be an achilles heel? tied to one shell at a time? export options later?
+ARELOAD_ALIAS_SETUP = ['python3', 'ali.py', 'add', 'areload', 'exec {}'.format(utils.get_shell_type())]

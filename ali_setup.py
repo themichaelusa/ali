@@ -15,8 +15,12 @@ import os
 import glob
 import subprocess
 import constants as const
+import utilities as utils
 
-def setup():
+def manual_setup(debug=False):
+
+	if debug is True:
+		utils.uninstall_ali()
 
 	# init ali dir in /usr/local/lib
 	os.mkdir(const.ALI_DIR_LOC)
@@ -39,8 +43,15 @@ def setup():
 			pass # nothing required... for pycache error 
 
 	# drop setup files 
-	subprocess.call(['rm', '{}/ali_setup.py'.format(const.ALI_DIR_LOC)])
+	subprocess.call(const.RM_SETUP_FILE)
+
+	# set up "ali" and "areload" alias
+	subprocess.call(const.ALI_ALIAS_SETUP)
+	subprocess.call(const.ARELOAD_ALIAS_SETUP)
+
+	# ask user politely to type "areload"
+	print('Please type "areload" to start using ali!')
 
 if __name__ == '__main__':
-	setup()
+	manual_setup(debug=True)
 

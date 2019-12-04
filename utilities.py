@@ -11,21 +11,20 @@
 """
 
 ### IMPORTS
+import os
+import shutil
 import subprocess
+
+import ali
 import constants as const
 
-def get_rc_file_type():
+### GENERAL FUNCS
 
-	#  supports: sh, bash, zsh | to support: ksh, csh, fish, etc 
-	#  only gets default shell, not CURRENT shell... something to figure out
+get_shell_type = lambda: os.getenv('SHELL').rstrip().split('/')[-1]
 
-    # get shell type 
-    ps_out = subprocess.check_output([const.GET_SHELL_TYPE_SCRIPT], shell=True)
-    shell_type_raw = ps_out.decode('utf8').rstrip()
-    shell_type = shell_type_raw.split('/')[-1]
-
-    # resolve rc file type
-    return const.SHELL_TYPE_TO_RC_DICT[shell_type]
+# design question... do we cache this once? or get it each time?
+# only gets default shell, not CURRENT shell... something to figure out
+get_rc_file_type = lambda: const.SHELL_TYPE_TO_RC_DICT[get_shell_type()]
 
 def dotrc_file_as_dict():
 
@@ -48,3 +47,15 @@ def save_dotrc_file(mod_dict):
         for name, cmd in mod_dict.items():
             rc_file.write(const.ALIAS_STR.format(name, cmd))
         rc_file.flush()
+
+### DEBUG 
+def uninstall_ali():
+
+    # remove key aliases
+    ali.remove('areload')
+    ali.remove('ali')
+
+    # remove ali folder 
+    shutil.rmtree(const.ALI_DIR_LOC)
+
+

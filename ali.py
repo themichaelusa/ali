@@ -21,9 +21,10 @@ features in the works:
 -  ali <name> dynamic search with tab
 -  on dynamic search: show options tab below
 
-long term --> online sharing of aliases:
+long term --> online sharing of aliases/shell scripts:
 - ali install <package name>
 - ali remove <package name>
+- ali register <package name>
 """
 
 ### IMPORTS
@@ -35,8 +36,12 @@ import constants as const
 import utilities as utils
 
 def show():
+    alias_dict = utils.dotrc_file_as_dict()
+    alias_dict.pop('ali')
+    alias_dict.pop('areload')
+
     print("{:<12} {:<20}".format('Alias','Command'))
-    for alias, cmd in utils.dotrc_file_as_dict().items():
+    for alias, cmd in alias_dict.items():
         print("{:<12} {:<20}".format(alias, cmd))
 
 def add(name, cmd):
@@ -87,27 +92,20 @@ def reuse(name, new_cmd):
 def ali():
 
     args = sys.argv
-    len_args = len(args)-1
 
-    # command: ali
-    if len_args == 0:
-        if command == const.CMD_SHOW:
-            show()
+    if len(args)-1 == 0:
+        show()
+        return
 
-    # command: ali remove
-    if len_args == 2:
-        if command == const.CMD_REMOVE:
+    command = args[1]
+    if command == const.CMD_REMOVE:
         remove(args[2])
-
-    # command(s): add, rename, reuse
-    if len_args >= 3:
-        command = args[1]
-        if command == const.CMD_ADD:
-            add(args[2], args[3:].join(' '))
-        elif command == const.CMD_RENAME:
-            rename(args[2], args[3:4])
-        elif command == const.CMD_REUSE:
-            reuse(args[2], args[3:])
+    elif command == const.CMD_ADD:
+        add(args[2], ' '.join(args[3:]))
+    elif command == const.CMD_RENAME:
+        rename(args[2], args[3:4])
+    elif command == const.CMD_REUSE:
+        reuse(args[2], args[3:])
 
 if __name__ == '__main__':
     ali()
