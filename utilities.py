@@ -58,4 +58,6 @@ def uninstall_ali():
     # remove ali folder 
     shutil.rmtree(const.ALI_DIR_LOC)
 
+if __name__ == '__main__':
+   print(get_shell_type())
 

@@ -32,15 +32,42 @@ import os
 import sys
 import subprocess
 
+import getpass
+import hashlib
+
+import requests 
+
 import constants as const
 import utilities as utils
 
+# SERVER FUNCS
+
+# talk 
+def register_account():
+    uname = input("Create a username:")
+    # todo: check if uname is taken
+
+    pwd = getpass.getpass('Enter a password:')
+    salted_pwd = (uname+pwd).encode('utf-8')
+    rhash = str(hashlib.sha256(salted_pwd).hexdigest())
+
+    # send to api, get api key, store as json file in ali directory
+    requests.post('127.0.0.1:5000/register/{}'.format(rhash))
+# 
+def register_plugin():
+    pass
+
+# no api key needed 
+def download_plugin():
+    pass
+
+# LOCAL FUNCS 
 def show():
     alias_dict = utils.dotrc_file_as_dict()
     alias_dict.pop('ali')
     alias_dict.pop('areload')
 
-    print("{:<12} {:<20}".format('Alias','Command'))
+    print(const.HEADER_STR)
     for alias, cmd in alias_dict.items():
         print("{:<12} {:<20}".format(alias, cmd))
 
@@ -106,6 +133,8 @@ def ali():
         rename(args[2], args[3:4])
     elif command == const.CMD_REUSE:
         reuse(args[2], args[3:])
+    elif command == 'register':
+        register_account()
 
 if __name__ == '__main__':
     ali()

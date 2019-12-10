@@ -12,6 +12,14 @@
 
 import utilities as utils
 
+# SETUP
+ALI_DIR_LOC = '/usr/local/lib/ali'
+RM_SETUP_FILE = ['rm', '{}/ali_setup.py'.format(ALI_DIR_LOC)]
+ALI_ALIAS_SETUP = ['python3', 'ali.py', 'add', 'ali', 'python3 {}/ali.py'.format(ALI_DIR_LOC)]
+
+# again, this may be an achilles heel? tied to one shell at a time? export options later?
+ARELOAD_ALIAS_SETUP = ['python3', 'ali.py', 'add', 'areload', 'exec {}'.format(utils.get_shell_type())]
+
 # SHELL TYPES
 # TODO: add ksh, csh, fish
 SHELL_TYPE_TO_RC_DICT = {
@@ -32,12 +40,17 @@ CMD_REUSE = 'reuse'
 # ALIAS UTILS
 ALIAS_STR = 'alias {}="{}"\n'
 
-# ALI LOCATION
-ALI_DIR_LOC = '/usr/local/lib/ali'
+# DISPLAY 
+class color:
+   PURPLE = '\033[95m'
+   CYAN = '\033[96m'
+   DARKCYAN = '\033[36m'
+   BLUE = '\033[94m'
+   GREEN = '\033[92m'
+   YELLOW = '\033[93m'
+   RED = '\033[91m'
+   BOLD = '\033[1m'
+   UNDERLINE = '\033[4m'
+   END = '\033[0m'
 
-# SETUP
-RM_SETUP_FILE = ['rm', '{}/ali_setup.py'.format(ALI_DIR_LOC)]
-ALI_ALIAS_SETUP = ['python3', 'ali.py', 'add', 'ali', 'python3 {}/ali.py'.format(ALI_DIR_LOC)]
-
-# again, this may be an achilles heel? tied to one shell at a time? export options later?
-ARELOAD_ALIAS_SETUP = ['python3', 'ali.py', 'add', 'areload', 'exec {}'.format(utils.get_shell_type())]
+HEADER_STR = color.BOLD + "{:<12} {:<20}".format('Alias','Command') + color.END
